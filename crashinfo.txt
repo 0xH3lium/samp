@@ -1,0 +1,95 @@
+
+--------------------------
+SA-MP Server: 0.3.7-R2
+
+Exception At Address: 0x0049939B Module: (samp-server.exe)
+
+Registers:
+EAX: 0x0019F32C	EBX: 0x035DADC0	ECX: 0x00000000	EDX: 0x004056C0
+ESI: 0x00000000	EDI: 0x023C7578	EBP: 0x0019F33C	ESP: 0x0019F314
+EFLAGS: 0x00010286
+
+Stack:
++0000: 0x023C7578   0x023C7578   0x035DADC0   0xFFFFFFFF
++0010: 0x0019F314   0x0019EE54   0x0019FB34   0x0049D208
++0020: 0x004BA1B8   0xFFFFFFFF   0x03607964   0x004056CD
++0030: 0x00000000   0x004010B6   0x023C7578   0x0470BBF0
++0040: 0x03607B18   0x00402B63   0x023C7578   0x00000014
++0050: 0x0019F37C   0x0470BBF0   0x0019F3C8   0x023C7578
++0060: 0x00000087   0x00000002   0x00000000   0x011040D4
++0070: 0x011040D8   0x011041A0   0x011002B0   0x0110418C
++0080: 0x011002B0   0x035DADC0   0x03607B18   0x00000000
++0090: 0x035D9020   0x0002CD58   0x71F73484   0x023C7578
++00A0: 0x0019F81C   0x00000087   0x0470BCC4   0x00000001
++00B0: 0x023C7578   0x0019F82C   0x004746BE   0x00000000
++00C0: 0x0019F81C   0x00000002   0x30303031   0x00470030
++00D0: 0x00007369   0x5F646D63   0x00007863   0x023C7578
++00E0: 0x023C7578   0x035DADC0   0x01100298   0x00000000
++00F0: 0x00000000   0x00000000   0x00000000   0x00000000
++0100: 0x00000000   0x00000000   0x00000000   0x00000000
++0110: 0x00000000   0x00000000   0x00000000   0x00000000
++0120: 0x00000000   0x00000000   0x00000064   0x00000000
++0130: 0x00000038   0x71F73C6D   0x0019F880   0x0019F884
+
+--------------------------
+
+Loaded Modules:
+samp-server.exe	A: 0x00400000 - 0x00519000	(C:\Users\Rust\Desktop\sssss\samp-server.exe)
+ntdll.dll	A: 0x77A60000 - 0x77C04000	(C:\WINDOWS\SYSTEM32\ntdll.dll)
+KERNEL32.DLL	A: 0x76EE0000 - 0x76FD0000	(C:\WINDOWS\System32\KERNEL32.DLL)
+KERNELBASE.dll	A: 0x76260000 - 0x76479000	(C:\WINDOWS\System32\KERNELBASE.dll)
+SHELL32.dll	A: 0x75B30000 - 0x760E5000	(C:\WINDOWS\System32\SHELL32.dll)
+msvcp_win.dll	A: 0x779D0000 - 0x77A4B000	(C:\WINDOWS\System32\msvcp_win.dll)
+ucrtbase.dll	A: 0x76480000 - 0x765A0000	(C:\WINDOWS\System32\ucrtbase.dll)
+USER32.dll	A: 0x76C60000 - 0x76DFB000	(C:\WINDOWS\System32\USER32.dll)
+win32u.dll	A: 0x76150000 - 0x76168000	(C:\WINDOWS\System32\win32u.dll)
+GDI32.dll	A: 0x75A30000 - 0x75A53000	(C:\WINDOWS\System32\GDI32.dll)
+gdi32full.dll	A: 0x76E00000 - 0x76EDD000	(C:\WINDOWS\System32\gdi32full.dll)
+WSOCK32.dll	A: 0x74EB0000 - 0x74EB8000	(C:\WINDOWS\SYSTEM32\WSOCK32.dll)
+msvcrt.dll	A: 0x75A70000 - 0x75B2F000	(C:\WINDOWS\System32\msvcrt.dll)
+WS2_32.dll	A: 0x76B70000 - 0x76BD3000	(C:\WINDOWS\System32\WS2_32.dll)
+RPCRT4.dll	A: 0x77230000 - 0x772EE000	(C:\WINDOWS\System32\RPCRT4.dll)
+WINMM.dll	A: 0x74EC0000 - 0x74EE8000	(C:\WINDOWS\SYSTEM32\WINMM.dll)
+IMM32.DLL	A: 0x76610000 - 0x76635000	(C:\WINDOWS\System32\IMM32.DLL)
+sscanf.DLL	A: 0x10000000 - 0x10042000	(C:\Users\Rust\Desktop\sssss\plugins\sscanf.DLL)
+streamer.DLL	A: 0x71F70000 - 0x71FDD000	(C:\Users\Rust\Desktop\sssss\plugins\streamer.DLL)
+MSVCP140.dll	A: 0x71F00000 - 0x71F6D000	(C:\WINDOWS\SYSTEM32\MSVCP140.dll)
+combase.dll	A: 0x774E0000 - 0x77760000	(C:\WINDOWS\System32\combase.dll)
+VCRUNTIME140.dll	A: 0x71EE0000 - 0x71EF5000	(C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll)
+mswsock.dll	A: 0x72EE0000 - 0x72F32000	(C:\WINDOWS\system32\mswsock.dll)
+napinsp.dll	A: 0x72F70000 - 0x72F81000	(C:\WINDOWS\system32\napinsp.dll)
+sechost.dll	A: 0x76BE0000 - 0x76C56000	(C:\WINDOWS\System32\sechost.dll)
+pnrpnsp.dll	A: 0x72F50000 - 0x72F66000	(C:\WINDOWS\system32\pnrpnsp.dll)
+NLAapi.dll	A: 0x74340000 - 0x74356000	(C:\WINDOWS\system32\NLAapi.dll)
+IPHLPAPI.DLL	A: 0x74C70000 - 0x74CA2000	(C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL)
+wshbth.dll	A: 0x72F40000 - 0x72F50000	(C:\WINDOWS\system32\wshbth.dll)
+DNSAPI.dll	A: 0x72E50000 - 0x72EE0000	(C:\WINDOWS\SYSTEM32\DNSAPI.dll)
+NSI.dll	A: 0x75A60000 - 0x75A67000	(C:\WINDOWS\System32\NSI.dll)
+winrnr.dll	A: 0x72E40000 - 0x72E4E000	(C:\WINDOWS\System32\winrnr.dll)
+bcrypt.dll	A: 0x765B0000 - 0x765C9000	(C:\WINDOWS\System32\bcrypt.dll)
+rasadhlp.dll	A: 0x72DD0000 - 0x72DD8000	(C:\Windows\System32\rasadhlp.dll)
+SHCORE.dll	A: 0x77140000 - 0x771C7000	(C:\WINDOWS\System32\SHCORE.dll)
+bcryptPrimitives.dll	A: 0x77810000 - 0x7786F000	(C:\WINDOWS\System32\bcryptPrimitives.dll)
+shlwapi.dll	A: 0x75930000 - 0x75975000	(C:\WINDOWS\System32\shlwapi.dll)
+windows.storage.dll	A: 0x75320000 - 0x7592D000	(C:\WINDOWS\SYSTEM32\windows.storage.dll)
+advapi32.dll	A: 0x77760000 - 0x777DB000	(C:\WINDOWS\System32\advapi32.dll)
+kernel.appcore.dll	A: 0x74EA0000 - 0x74EAF000	(C:\WINDOWS\SYSTEM32\kernel.appcore.dll)
+uxtheme.dll	A: 0x749B0000 - 0x74A24000	(C:\WINDOWS\system32\uxtheme.dll)
+PROPSYS.dll	A: 0x73F00000 - 0x73FC2000	(C:\WINDOWS\SYSTEM32\PROPSYS.dll)
+OLEAUT32.dll	A: 0x77340000 - 0x773D6000	(C:\WINDOWS\System32\OLEAUT32.dll)
+CFGMGR32.dll	A: 0x765D0000 - 0x7660B000	(C:\WINDOWS\System32\CFGMGR32.dll)
+edputil.dll	A: 0x75180000 - 0x7519B000	(C:\WINDOWS\SYSTEM32\edputil.dll)
+Windows.StateRepositoryPS.dll	A: 0x74F00000 - 0x74F93000	(C:\Windows\System32\Windows.StateRepositoryPS.dll)
+urlmon.dll	A: 0x72860000 - 0x72A08000	(C:\WINDOWS\SYSTEM32\urlmon.dll)
+iertutil.dll	A: 0x73450000 - 0x7367D000	(C:\WINDOWS\SYSTEM32\iertutil.dll)
+netutils.dll	A: 0x74540000 - 0x7454B000	(C:\WINDOWS\SYSTEM32\netutils.dll)
+srvcli.dll	A: 0x75030000 - 0x7504D000	(C:\WINDOWS\SYSTEM32\srvcli.dll)
+SspiCli.dll	A: 0x75080000 - 0x750A1000	(C:\WINDOWS\SYSTEM32\SspiCli.dll)
+wintypes.dll	A: 0x72F90000 - 0x7306B000	(C:\Windows\System32\wintypes.dll)
+appresolver.dll	A: 0x724B0000 - 0x72521000	(C:\Windows\System32\appresolver.dll)
+Bcp47Langs.dll	A: 0x72420000 - 0x72468000	(C:\Windows\System32\Bcp47Langs.dll)
+USERENV.dll	A: 0x74C40000 - 0x74C65000	(C:\Windows\System32\USERENV.dll)
+SLC.dll	A: 0x72490000 - 0x724AF000	(C:\Windows\System32\SLC.dll)
+sppc.dll	A: 0x72470000 - 0x7248C000	(C:\Windows\System32\sppc.dll)
+OneCoreCommonProxyStub.dll	A: 0x723E0000 - 0x7241D000	(C:\Windows\System32\OneCoreCommonProxyStub.dll)
+OneCoreUAPCommonProxyStub.dll	A: 0x72020000 - 0x723D9000	(C:\Windows\System32\OneCoreUAPCommonProxyStub.dll)
