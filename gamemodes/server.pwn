@@ -2325,12 +2325,6 @@ CMD:cxcar(playerid,params[])
 	SaveHouseData(HID);
 	return 1;
 }
-CMD:kos(playerid)
-{
-	SetVehicleToRespawn(H_INFO[1][_Veh]);
-	SendClientMessage(playerid,0x909090FF,"asdasdasd");
-	return 1;
-}
 CMD:bs(playerid,params[])
 {
 	new target;
