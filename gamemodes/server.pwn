@@ -1,18 +1,30 @@
 #define SSCANF_NO_NICE_FEATURES
+#define YSI_NO_HEAP_MALLOC
 // This is a comment
 // uncomment the line below if you want to write a filterscript
 //#define FILTERSCRIPT
 
 #include <a_samp>
-#include <YSI\y_ini>
-#include<zcmd>
-//#include<mselection>
+#include <a_mysql>
+#include <YSI_Coding\y_inline>
+#include <YSI_Visual\y_dialog>
+#include <zcmd>
 #include <sscanf2>
 #include <streamer>
-//#include "src/tx"
+#include "map\map"
+#include "InterM\N"
 
 
 
+#define		MYSQL_HOST 			"127.0.0.1"
+#define		MYSQL_USER 			"root"
+#define 	MYSQL_PASSWORD 		""
+#define		MYSQL_DATABASE 		"samp"
+
+new MySQL: g_SQL;
+
+new TotalHouses;
+new TotalZones;
 #define USER_FILE "Users/%s.ini"
 
 #define ZONE_FILE "Zones/%d.ini"
@@ -22,8 +34,8 @@
 
 //menus
 
-#define REGISTER_MENU 0
-#define LOGIN_MENU 1
+#define DIALOG_REGISTER 0
+#define DIALOG_LOGIN 1
 #define USERLIST_MENU 2
 #define HOUSE_BUY_MENU 3
 
@@ -65,7 +77,6 @@
 /*    Server Vars     */
 /* ------------------ */
 
-new UserMenuArr[10];
 new U_Attack_Zone;
 new U_Attack_by;
 
@@ -79,10 +90,6 @@ new VagosCount;
 new Text3D:GroveFam;
 new Text3D:BallasFam;
 new Text3D:VagosFam;
-new gsGrove;
-new gsBallas;
-new gsPolice;
-
 
 new Float:Hospitals[1][4] =
 {
@@ -92,6 +99,7 @@ new Float:Hospitals[1][4] =
 
 enum Zoner
 {
+	IDZ,
 	Float:MinX,
 	Float:MinY,
 	Float:MaxX,
@@ -114,12 +122,6 @@ new Team[MAX_PLAYERS];
 new bool:Bustu[MAX_PLAYERS];
 
 
-
-
-
-
-
-
 /*        Objects        */
 /* --------------------- */
 
@@ -139,7 +141,9 @@ new P_INFO[MAX_PLAYERS][Data];
 
 enum User_Data
 {
-	pPass[128],
+	HisID,
+	HisName[64],
+	pPass[64],
 	Cash,
 	Float:pPosX,
 	Float:pPosY,
@@ -147,6 +151,13 @@ enum User_Data
 	Float:Health,
 	Float:Armour,
 	House,
+	Hpack,
+	Apack,
+	Ppack,
+	Jpack,
+	Tpack,
+	Rpack,
+	ORM:ORM_ID,
     gSlot0_gun,
     gSlot0_ammo,
     gSlot1_gun,
@@ -177,7 +188,9 @@ enum User_Data
 new PlayerInfo[MAX_PLAYERS][User_Data];
 
 enum HData
-{
+{	
+	IDH,
+	ORM:ORM_ID,
 	Owner[64],
 	CP,
 	Text3D:Text,
@@ -219,6 +232,19 @@ main()
 
 public OnGameModeInit()
 {
+	new MySQLOpt: option_id = mysql_init_options();
+
+	mysql_set_option(option_id, AUTO_RECONNECT, true); // it automatically reconnects when loosing connection to mysql server
+
+	g_SQL = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, option_id); // AUTO_RECONNECT is enabled for this connection handle only
+	if (g_SQL == MYSQL_INVALID_HANDLE || mysql_errno(g_SQL) != 0)
+	{
+		print("MySQL connection failed. Server is shutting down.");
+		SendRconCommand("exit"); // close the server if there is no connection
+		return 1;
+	}
+
+	print("MySQL connection is successful.");
     AddPlayerClassEx(TEAM_GROVE_STREET,271,2492.17,-1662.35,13.33,0.0,0,0,0,0,0,0); //ryder
     AddPlayerClassEx(TEAM_GROVE_STREET,270,270.1088,7.5106,1001.3356,0.0,0,0,0,0,0,0);
     AddPlayerClassEx(TEAM_GROVE_STREET,106,106.1088,7.5106,1001.3356,0.0,0,0,0,0,0,0);
@@ -240,18 +266,7 @@ public OnGameModeInit()
 	Ballas_Pickup = CreateDynamicPickup(1314,23,2169.882080,-1674.035644,15.085937,0,0,-1,60);
 	Vagos_Pickup = CreateDynamicPickup(1314,23,2351.959716,-1168.035766,27.834585,0,0,-1,60);
 
-	for(new h = 0; h < MAX_ZONES; h++)
-	{
-	    new file[40];
-		format(file, sizeof(file), ZONE_FILE, h);
-	    if(fexist(file))
-		{
-	    	INI_ParseFile(file, "LoadZone_%s", .bExtra = true, .extra = h);
-	    	ZoneInfo[h][_Zone] = GangZoneCreate(ZoneInfo[h][MinX],ZoneInfo[h][MinY],ZoneInfo[h][MaxX],ZoneInfo[h][MaxY]);
-	    	ZoneInfo[h][locked] = false;
-
-		}
-	}
+	mysql_tquery(g_SQL,"SELECT * from `zones`","LoadZones");
 	U_Attack_Zone = -1;
 
 	new tempstr[128];
@@ -262,51 +277,116 @@ public OnGameModeInit()
 	format(tempstr,128,"{00FFC5} Gang {00FF6C} Grove Street\n{00FFC5}Tedad Kol Zone Ha : {F5EA00} %d Zone",GroveCount);
 	GroveFam = Create3DTextLabel(tempstr,YELLOW,2511.17,-1681.89,13.50,40,0,1);
 
-	CountZones();
-	for(new j = 1; j < MAX_HOUSES; j++)
-	{
-	    new file[40];
-		format(file, sizeof(file), HOUSE_FILE, j);
-	    if(fexist(file))
-		{
-	    	INI_ParseFile(file, "LoadHouse_%s", .bExtra = true, .extra = j);
-	    	CreateHouse(j);
+	mysql_tquery(g_SQL,"SELECT * from `houses`","LoadHouses");
 
-		}
-	}
-
-	CreateObject(18885, 2178.4001, -1660.2717, 15.1358, -0.2999, 0.0999, 45.3000); //GunVendingMachine1
-	Create3DTextLabel("{00FFC5}Gun Vending Machine\n{FFFF00}Kharid Aslahe",YELLOW,2179.524902,-1661.555419,15.21488,50,0,1);
-	CreateObject(18885, 2478.9499, -1687.5627, 13.5893, 0.0000, 0.0000, 174.3999); //GunVendingMachine1
-	Create3DTextLabel("{00FFC5}Gun Vending Machine\n{FFFF00}Kharid Aslahe",YELLOW,2479.119140,-1686.157592,13.907812,50,0,1);
-	CreateObject(18885, 1508.6232, -1626.3209, 14.1153, 0.7999, -0.2999, 93.0000); //GunVendingMachine1
-	Create3DTextLabel("{00FFC5}Gun Vending Machine\n{FFFF00}Kharid Aslahe",YELLOW,1510.036132,-1626.318725,14.446875,50,0,1);
-
-	gsGrove = CreateDynamicCP(2179.524902,-1661.555419, 14.9358,1.0,0,0,-1,40);
-	gsBallas = CreateDynamicCP(2479.119140,-1686.157592, 13.2893,1.0,0,0,-1,40);
-	gsPolice = CreateDynamicCP(1510.036132,-1626.318725, 14.0153,1.0,0,0,-1,40);
 	return 1;
 }
 
 public OnGameModeExit()
 {
-	for(new i = 0; i < MAX_PLAYERS; i++)
-	{
-		if(!IsPlayerConnected(i)) continue;
-		SaveUserData(i);
-	}
-	for(new i = 0; i < MAX_ZONES; i++)
-	{
-		if(ZoneInfo[i][Color] == 0) continue;
-		SaveZoneData(i);
-	}
-	for(new i = 1; i < MAX_HOUSES; i++)
-	{
-		SaveHouseData(i);
-	}
-	
+	mysql_close();
 	return 1;
 }
+forward LoadHouses();
+public LoadHouses()
+{
+	    
+    if(!cache_num_rows())
+		return printf("\n[Houses]: 0 Houses were loaded.\n");
+
+	new rows;
+	cache_get_row_count(rows);
+	
+
+	TotalHouses = rows;
+	for(new i=1;i<=rows;i++)
+	{
+        cache_get_value_name_int(i-1, "IDH" , H_INFO[i][IDH]);
+
+		cache_get_value_name(i-1, "Owner", H_INFO[i][Owner], 64);
+
+        cache_get_value_name_int(i-1, "Value", H_INFO[i][Value]);
+        
+        cache_get_value_name_float(i-1, "HouseX", H_INFO[i][HouseX]);
+        cache_get_value_name_float(i-1, "HouseY", H_INFO[i][HouseY]);
+        cache_get_value_name_float(i-1, "HouseZ", H_INFO[i][HouseZ]);
+        
+        cache_get_value_name_float(i-1, "CarX", H_INFO[i][CarX]);
+        cache_get_value_name_float(i-1, "CarY", H_INFO[i][CarY]);
+        cache_get_value_name_float(i-1, "CarZ", H_INFO[i][CarZ]);
+        cache_get_value_name_float(i-1, "CarA", H_INFO[i][CarA]);
+        cache_get_value_name_int(i-1, "VehNitro", bool:H_INFO[i][VehNitro]);
+        cache_get_value_name_int(i-1, "VehHydro", bool:H_INFO[i][VehHydro]);
+        cache_get_value_name_int(i-1, "CarColor1", H_INFO[i][CarColor1]);
+        cache_get_value_name_int(i-1, "CarColor2", H_INFO[i][CarColor2]);
+        cache_get_value_name_int(i-1, "VehModel", H_INFO[i][VehModel]);
+        cache_get_value_name_int(i-1, "VehWheel", H_INFO[i][VehWheel]);
+		//Assigning the Values and all:
+		new str[128];
+		format(str,128,"{FFFFFF}Khane Shomare : %d\n{FFFF00}Geymat Khane :  $ %d\n{26ADFF}Saheb Khane : {%s} %s !",i,H_INFO[i][Value],SahebKhaneColor(i),H_INFO[i][Owner]);
+		H_INFO[i][CP] = CreateDynamicPickup(1273, 23,H_INFO[i][HouseX],H_INFO[i][HouseY],H_INFO[i][HouseZ], 0, 0, -1, 40.0);
+		H_INFO[i][Text] = Create3DTextLabel(str, YELLOW,H_INFO[i][HouseX],H_INFO[i][HouseY],H_INFO[i][HouseZ]+0.5, 40.0, 0, 1);
+		if(H_INFO[i][VehModel] != 0)
+		{
+			H_INFO[i][_Veh] = CreateVehicle(H_INFO[i][VehModel],H_INFO[i][CarX],H_INFO[i][CarY],H_INFO[i][CarZ],H_INFO[i][CarA],H_INFO[i][CarColor1],H_INFO[i][CarColor2],10000);
+			if(H_INFO[i][VehNitro] == true) AddVehicleComponent(H_INFO[i][_Veh],1010);
+			if(H_INFO[i][VehHydro] == true) AddVehicleComponent(H_INFO[i][_Veh],1087);
+			if(H_INFO[i][VehWheel] > 0) AddVehicleComponent(H_INFO[i][_Veh],H_INFO[i][VehWheel]);
+		}
+	}
+	printf("\n[Houses]: %d Houses were loaded.\n",rows);
+	return 1;
+}
+forward LoadZones();
+public LoadZones()
+{
+	    
+    if(!cache_num_rows())
+		return printf("\n[Zones]: 0 Zones were loaded.\n");
+
+	new rows;
+	cache_get_row_count(rows);
+	
+
+	TotalZones = rows;
+	for(new i=0;i<=rows;i++)
+	{
+        cache_get_value_name_int(i, "IDH" , ZoneInfo[i][IDZ]);
+
+        cache_get_value_name_int(i, "Color", ZoneInfo[i][Color]);
+
+        cache_get_value_name_float(i, "MinX", ZoneInfo[i][MinX]);
+        cache_get_value_name_float(i, "MinY", ZoneInfo[i][MinY]);
+        cache_get_value_name_float(i, "MaxX", ZoneInfo[i][MaxX]);
+        cache_get_value_name_float(i, "MaxY", ZoneInfo[i][MaxY]);
+
+    	ZoneInfo[i][_Zone] = GangZoneCreate(ZoneInfo[i][MinX],ZoneInfo[i][MinY],ZoneInfo[i][MaxX],ZoneInfo[i][MaxY]);
+    	ZoneInfo[i][locked] = false;
+	}
+	printf("\n[Zones]: %d Houses were loaded.\n",rows);
+	CountZones();
+	return 1;
+}
+forward OnCreateHouse(playerid, houseID, price, Float:HX, Float:HY, Float:HZ);
+public OnCreateHouse(playerid, houseID, price, Float:HX, Float:HY, Float:HZ)
+{
+	TotalHouses++;
+	format(H_INFO[houseID][Owner],64,"Bedun Saheb");
+	H_INFO[houseID][HouseX] = HX;
+	H_INFO[houseID][HouseY] = HY;
+	H_INFO[houseID][HouseZ] = HZ;
+	H_INFO[houseID][IDH] = houseID;
+	H_INFO[houseID][Value] = price;
+
+	new str[128],Label[128];
+	format(str,128,"{FFFFFF}Khane Shomare : %d\n{FFFF00}Geymat Khane :  $ %d\n{26ADFF}Saheb Khane : {%s} %s !",houseID,H_INFO[houseID][Value],SahebKhaneColor(houseID),H_INFO[houseID][Owner]);
+	H_INFO[houseID][CP] = CreateDynamicPickup(1273, 23,H_INFO[houseID][HouseX],H_INFO[houseID][HouseY],H_INFO[houseID][HouseZ], 0, 0, -1, 40.0);
+	H_INFO[houseID][Text] = Create3DTextLabel(str, YELLOW,H_INFO[houseID][HouseX],H_INFO[houseID][HouseY],H_INFO[houseID][HouseZ]+0.5, 40.0, 0, 1);
+	format(Label, sizeof(Label), "You have Created a House. House ID: %d. Total Houses Now: %d",houseID, TotalHouses);
+	SendClientMessage(playerid, 0xFFFF00AA, Label);
+	return 1;
+}
+
 
 public OnPlayerRequestClass(playerid, classid)
 {
@@ -343,26 +423,91 @@ public OnPlayerConnect(playerid)
 {
 	////// Login System
 	//////////////////////////////////////////////////////////////
-	new string[128];
     LoadPlayerTextdraws(playerid);
-	new ipstring[128];
-	GetPlayerIp(playerid,ipstring,sizeof(ipstring));
-    if(fexist(UserFile(playerid)))
-    {
-        format(string, sizeof(string), "{40FFFF}[Username]: {FFFF00}%s\n{40FFFF}[IP]: {FFFF00}%s\n\n{FFFFFF}Be Server Khosh Amadid. Baraie Vorod Be Hesab Khod, Password Khod Ra Vared Konid.\nDar Gheire In Sorat, Gozine Khoruj Ra Entekhab Konid.",GetName(playerid),ipstring);
-        ShowPlayerDialog(playerid,LOGIN_MENU,DIALOG_STYLE_INPUT,"{FF0000}Vorod Be Hesab",string,"{FFFFFF}Vorod","{FF0000}Khoruj");
-    }
-    else if(!fexist(UserFile(playerid)))
-    {
-        format(string, sizeof(string), "{40FFFF}[Username]: {FFFF00}%s\n{40FFFF}[IP]: {FFFF00}%s\n\n{FFFFFF}Be Server Khosh Amadid. Baraie Shoro, Ebteda Baiad Be Ozviat Server Dar Biaiad.\nLotfan Passwordi Baraie Hesab Khod Entekhab Konid.",GetName(playerid),ipstring);
-        ShowPlayerDialog(playerid,REGISTER_MENU,DIALOG_STYLE_INPUT,"{FF0000}Ozviat Dar Server",string,"{FFFFFF}Ozviat","{FF0000}Khoruj");
-    }
+	static const empty_player[User_Data];
+	PlayerInfo[playerid] = empty_player;
+
+	// create orm instance and register all needed variables
+	new ORM: ormid = PlayerInfo[playerid][ORM_ID] = orm_create("players", g_SQL);
+	GetPlayerName(playerid, PlayerInfo[playerid][HisName] ,64);
+	orm_addvar_int(ormid, PlayerInfo[playerid][HisID], "id");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Cash], "Cash");
+	orm_addvar_int(ormid, PlayerInfo[playerid][House], "House");
+	orm_addvar_string(ormid, PlayerInfo[playerid][HisName], 64, "username");
+	orm_addvar_string(ormid, PlayerInfo[playerid][pPass], 64, "pPass");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot0_gun], "gSlot0_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot0_ammo], "gSlot0_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot1_gun], "gSlot1_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot1_ammo], "gSlot1_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot2_gun], "gSlot2_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot2_ammo], "gSlot2_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot3_gun], "gSlot3_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot3_ammo], "gSlot3_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot4_gun], "gSlot4_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot4_ammo], "gSlot4_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot5_gun], "gSlot5_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot5_ammo], "gSlot5_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot6_gun], "gSlot6_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot6_ammo], "gSlot6_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot7_gun], "gSlot7_gun");
+	orm_addvar_int(ormid, PlayerInfo[playerid][gSlot7_ammo], "gSlot7_ammo");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Hpack], "Hpack");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Apack], "Apack");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Ppack], "Ppack");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Jpack], "Jpack");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Tpack], "Tpack");
+	orm_addvar_int(ormid, PlayerInfo[playerid][Rpack], "Rpack");
+	orm_addvar_float(ormid, PlayerInfo[playerid][pPosX], "pPosX");
+	orm_addvar_float(ormid, PlayerInfo[playerid][pPosY], "pPosY");
+	orm_addvar_float(ormid, PlayerInfo[playerid][pPosZ], "pPosZ");
+	orm_addvar_float(ormid, PlayerInfo[playerid][Health], "Health");
+	orm_addvar_float(ormid, PlayerInfo[playerid][Armour], "Armour");
+	orm_setkey(ormid, "username");
+
+	// tell the orm system to load all data, assign it to our variables and call our callback when ready
+	orm_load(ormid, "OnPlayerDataLoaded", "d", playerid);
     /////////////////////////////////////////////////////////////
     
     P_INFO[playerid][InZone] = NO_ZONE;
     Bustu[playerid] = false;
+
 	return 1;
 }
+
+
+forward OnPlayerDataLoaded(playerid);
+public OnPlayerDataLoaded(playerid)
+{
+
+	orm_setkey(PlayerInfo[playerid][ORM_ID], "id");
+
+	new string[115];
+	switch (orm_errno(PlayerInfo[playerid][ORM_ID]))
+	{
+		case ERROR_OK:
+		{
+			format(string, sizeof string, "Account (%s) Register Shode. Lotfan Login Konid:", GetName(playerid));
+			ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "Login", string, "Login", "Abort");
+
+		}
+		case ERROR_NO_DATA:
+		{
+			format(string, sizeof string, "Welcome %s, Shoma Ba Vared Kardan Ramz Mitavanid Register Konid:", GetName(playerid));
+			ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "Registration", string, "Register", "Abort");
+		}
+	}
+	return 1;
+}
+
+
+forward OnPlayerRegister(playerid);
+public OnPlayerRegister(playerid)
+{
+	ShowPlayerDialog(playerid, 1000, DIALOG_STYLE_MSGBOX, "Registration", "Account successfully registered, you have been automatically logged in.", "Okay", "");
+	GivePool(playerid,10000);
+	return 1;
+}
+
 
 public OnPlayerDisconnect(playerid, reason)
 {
@@ -370,7 +515,19 @@ public OnPlayerDisconnect(playerid, reason)
 	{
 		FailCaptureZone(playerid);
 	}
-	SaveUserData(playerid);
+	GetPlayerPos(playerid,PlayerInfo[playerid][pPosX],PlayerInfo[playerid][pPosY],PlayerInfo[playerid][pPosZ]);
+	GetPlayerWeaponData(playerid, 0, PlayerInfo[playerid][gSlot0_gun], PlayerInfo[playerid][gSlot0_ammo]);
+	GetPlayerWeaponData(playerid, 1, PlayerInfo[playerid][gSlot1_gun], PlayerInfo[playerid][gSlot1_ammo]);
+	GetPlayerWeaponData(playerid, 2, PlayerInfo[playerid][gSlot2_gun], PlayerInfo[playerid][gSlot2_ammo]);
+	GetPlayerWeaponData(playerid, 3, PlayerInfo[playerid][gSlot3_gun], PlayerInfo[playerid][gSlot3_ammo]);
+	GetPlayerWeaponData(playerid, 4, PlayerInfo[playerid][gSlot4_gun], PlayerInfo[playerid][gSlot4_ammo]);
+	GetPlayerWeaponData(playerid, 5, PlayerInfo[playerid][gSlot5_gun], PlayerInfo[playerid][gSlot5_ammo]);
+	GetPlayerWeaponData(playerid, 6, PlayerInfo[playerid][gSlot6_gun], PlayerInfo[playerid][gSlot6_ammo]);
+	GetPlayerWeaponData(playerid, 7, PlayerInfo[playerid][gSlot7_gun], PlayerInfo[playerid][gSlot7_ammo]);
+	GetPlayerHealth(playerid,PlayerInfo[playerid][Health]);
+	GetPlayerArmour(playerid,PlayerInfo[playerid][Armour]);
+	orm_save(PlayerInfo[playerid][ORM_ID]);
+	orm_destroy(PlayerInfo[playerid][ORM_ID]);
 	return 1;
 }
 
@@ -391,11 +548,6 @@ public OnPlayerSpawn(playerid)
 		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot5_gun], PlayerInfo[playerid][gSlot5_ammo]);
 		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot6_gun], PlayerInfo[playerid][gSlot6_ammo]);
 		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot7_gun], PlayerInfo[playerid][gSlot7_ammo]);
-		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot8_gun], PlayerInfo[playerid][gSlot8_ammo]);
-		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot9_gun], PlayerInfo[playerid][gSlot9_ammo]);
-		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot10_gun], PlayerInfo[playerid][gSlot10_ammo]);
-		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot11_gun], PlayerInfo[playerid][gSlot11_ammo]);
-		GivePlayerWeapon(playerid, PlayerInfo[playerid][gSlot12_gun], PlayerInfo[playerid][gSlot12_ammo]);
 	}
 	else if(PlayerInfo[playerid][House] != 0)
 	{
@@ -637,6 +789,27 @@ public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 	return 1;
 }
 
+stock Invent(playerid){
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][0]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][1]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][2]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][3]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][4]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][5]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][6]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][7]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][8]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][9]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][10]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][11]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][12]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][13]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][14]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][15]);
+    PlayerTextDrawShow(playerid, PlayerTD[playerid][16]);
+    SelectTextDraw(playerid, 0xFF0000FF);
+    return 1;
+}
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     /*if(newkeys & KEY_CTRL_BACK)
@@ -788,63 +961,38 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
 	switch(dialogid)
 	{
-	    case REGISTER_MENU:
-    	{
-		    new f[40], string[150];
-	        format(f, sizeof(f), USER_FILE, GetName(playerid));
-	        if(!strlen(inputtext)) return SendClientMessage(playerid, RED, "Shoma bayad yek ramz obor vared konid.") && format(string,sizeof(string),"Welcome to server Goh %s!\n\nIn esm sabtenam nashode.\n\nYek ramz obor vared konid va on ro faramosh nakonid:", GetName(playerid)) && ShowPlayerDialog(playerid, REGISTER_MENU, DIALOG_STYLE_INPUT, "{FFFFFF}Register", string, "Register", "Kick");
-	        if(strlen(inputtext) < 3 || strlen(inputtext) > 24) return SendClientMessage(playerid, RED, "> Your password can only contain 3-24 characters.") && format(string,sizeof(string),"{FFFFFF}Welcome to ACNR %s!\n\nIn esm sabtenam nashode.\n\nYek ramz obor vared konid va on ro faramosh nakonid:", GetName(playerid)) && ShowPlayerDialog(playerid, REGISTER_MENU, DIALOG_STYLE_INPUT, "{FFFFFF}Register", string, "Register", "Kick");
-			if(!response) return SendClientMessage(playerid, RED, "Ghabl az spawn bayad sabtenam konid.") && Kick(playerid);
-			{
-	        format(PlayerInfo[playerid][pPass],128,"%s",inputtext);
-			GivePool(playerid, 10000);
-			SaveUserData(playerid);
+		case DIALOG_LOGIN:
+		{
+			if (!response) return Kick(playerid);
 
-	        }
-    	}
-    	case LOGIN_MENU:
-    	{
-		    new f[40], string[150],fstr2[150];
-	        format(f, sizeof(f), USER_FILE, GetName(playerid));
-			INI_ParseFile(f, "LoadUser_%s", .bExtra = true, .extra = playerid);
-	        if(!strlen(inputtext)) return SendClientMessage(playerid, RED, "Shoma bayad yek ramze obor vared konid.") && Kick(playerid);
-	        else if(!response) return SendClientMessage(playerid, RED, "Ghabl az spawn bayad login shavid.") && Kick(playerid);
-	    	if(strcmp(inputtext, PlayerInfo[playerid][pPass], false) != 0 && mohlatincpass{playerid} == 0)
-	    	{
-		    	mohlatincpass{playerid} ++;
-		    	format(fstr2,sizeof(fstr2),"{FFFFFF}Khosh Amadi %s [%d].\n\nIn Esm ghablan sabtenam shode.\n\nBaraye vorod ramze obore khod ra vared konid:", GetName(playerid),playerid);
-		        ShowPlayerDialog(playerid, LOGIN_MENU, DIALOG_STYLE_INPUT, "{FFFFFF}ACNR Account Login", fstr2, "Login", "Ban");
-		        SendClientMessage(playerid,RED,"   RamzObor ra eshtebah vared kardid (1/3)  ");
-		        //return 1;
-	        }
-	        else if(strcmp(inputtext, PlayerInfo[playerid][pPass], false) != 0 && mohlatincpass{playerid} == 1)
-	    	{
-		    	mohlatincpass{playerid} ++;
-		    	format(fstr2,sizeof(fstr2),"{FFFFFF}Khosh Amadi %s [%d].\n\nIn Esm ghablan sabtenam shode.\n\nBaraye vorod ramze obore khod ra vared konid:", GetName(playerid),playerid);
-		        ShowPlayerDialog(playerid, LOGIN_MENU, DIALOG_STYLE_INPUT, "{FFFFFF}ACNR Account Login", fstr2, "Login", "Ban");
-		        SendClientMessage(playerid,RED,"   RamzObor ra eshtebah vared kardid (2/3)  ");
-		        //return 1;
-	        }
-	        else if(strcmp(inputtext, PlayerInfo[playerid][pPass], false) != 0 && mohlatincpass{playerid} == 2)
+			if (strcmp(inputtext, PlayerInfo[playerid][pPass]) == 0)
 			{
-	            GameTextForPlayer(playerid,"~r~Kicked...~n~Kicked..~n~Kicked.~n~Kicked",9999,2);
-	            SendClientMessage(playerid, RED, "Ramz Obor Eshtebah.");
-	            format(string, sizeof(string), "%s [%d] az ACNR Kick shod - Dalil: Ramz obor eshtebah", GetName(playerid), playerid);
-	            SendClientMessage(playerid,RED,"   RamzObor ra eshtebah vared kardid (3/3)  ");
-	           	SendClientMessage(playerid, RED, string);
-	            Kick(playerid);
-	            mohlatincpass{playerid} = 0;
-			    print(string);
-	            return 1;
-	        }
-	        else
-	        {
-				SetPlayerScore(playerid, PlayerInfo[playerid][Cash]);
-				GivePlayerMoney(playerid, PlayerInfo[playerid][Cash]);
+				//correct password, spawn the player
+				ShowPlayerDialog(playerid, 1000, DIALOG_STYLE_MSGBOX, "Login", "{FFFF00}Shoma Vared Account Khod Shodid.", "Okay", "");
+
 				firstspawn[playerid] = true;
-
+				GivePlayerMoney(playerid,PlayerInfo[playerid][Cash]);
+				SetPlayerScore(playerid,PlayerInfo[playerid][Cash]);
 			}
-    	}
+			else
+			{
+				mohlatincpass[playerid]++;
+
+				if (mohlatincpass[playerid] >= 3)
+				{
+					ShowPlayerDialog(playerid, 1000, DIALOG_STYLE_MSGBOX, "Login", "{FFFF00}Kick Be Dalil Ramz Eshtebah (3 times).", "Okay", "");
+					Kick(playerid);
+				}
+				else ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "Login", "{FF0000}Ramz Eshtebah!\n{FFFFFF}Lotfan Ramz Khod Ra Vared Konid:", "Login", "Abort");
+			}
+		}
+		case DIALOG_REGISTER:
+		{
+			if (!response) return Kick(playerid);
+
+			if (strlen(inputtext) <= 5) return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "Registration", "{FFFF00}Ramz Shoma Bayad Bishtar Az 5 Harf Bashad!\n{FFFFFF}Lotfan Ramz Khod Ra Vared Konid:", "Register", "Abort");
+			orm_save(PlayerInfo[playerid][ORM_ID], "OnPlayerRegister", "d", playerid);
+		}
     	case USERLIST_MENU:
     	{
     		SendClientMessage(playerid,0x909090FF,"adsadsdsadsdsadsadsad har har har");
@@ -856,10 +1004,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			new HIDX = GetPVarInt(playerid,"LastHouseCP");
 			if(Buy(playerid,H_INFO[HIDX][Value])) return SendClientMessage(playerid,0x909090FF,"Pool Nadari Dadash");
 			format(H_INFO[HIDX][Owner],64,"%s",GetName(playerid));
-			new str[128];
+			new str[128],query[128];
 			format(str,128,"{FFFFFF}Khane Shomare : %d\n{FFFF00}Geymat Khane :  $ %d\n{26ADFF}Saheb Khane : {%s} %s !",HIDX,H_INFO[HIDX][Value],SahebKhaneColor(HIDX),H_INFO[HIDX][Owner]);
 			Update3DTextLabelText(H_INFO[HIDX][Text], YELLOW, str);
-			SaveHouseData(HIDX);
+			mysql_format(g_SQL, query, sizeof(query), "UPDATE `houses` SET Owner='%s' WHERE ID=%d",H_INFO[HIDX][Owner],HIDX);
+			mysql_tquery(g_SQL,query);//,"OnUpdateHouseOwner","iis",playerid, HIDX, H_INFO[HIDX][Owner]);
 			PlayerInfo[playerid][House] = HIDX;
     	}
 	}
@@ -872,7 +1021,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 public OnPlayerPickUpDynamicPickup(playerid, pickupid)
 {
-	for(new h = 0; h < MAX_HOUSES; h++)
+	SetPVarInt(playerid,"LastHouseCP",pickupid);
+	for(new h = 1; h < MAX_HOUSES; h++)
 	{
 		if(pickupid != H_INFO[h][CP]) continue;
 
@@ -886,7 +1036,6 @@ public OnPlayerPickUpDynamicPickup(playerid, pickupid)
 			format(strr,128,"Aya Mikhahid In Khane Ra Be Gheymat %s Kharidari Konid ?",AddThousandsSeparators(H_INFO[h][Value]));
 			ShowPlayerDialog(playerid,HOUSE_BUY_MENU,DIALOG_STYLE_MSGBOX,"{FFFF00}Kharid Khane",strr,"Entekhab","Cancel");
 		}
-		SetPVarInt(playerid,"LastHouseCP",pickupid);
 	}
 	if(pickupid == MoneyBagPickup)
 	{
@@ -908,199 +1057,16 @@ public OnPlayerPickUpDynamicPickup(playerid, pickupid)
 		GivePool(playerid,GetPVarInt(playerid,"zonemoney"));
 		SetPVarInt(playerid,"zonemoney",0);
 	}
+
 	return 1;
 }
 
 public OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
-
-	if(checkpointid == gsGrove || gsPolice || gsBallas){
-		return cmd_gg(playerid);
-	}
 	return 1;
 }
 
 
-
-stock SaveUserData(playerid)
-{
-	if(IsPlayerConnected(playerid))
-	{
-		new file[40],Float:X[3];
-		GetPlayerPos(playerid,X[0],X[1],X[2]);
-		GetPlayerHealth(playerid, PlayerInfo[playerid][Health]);
-		GetPlayerArmour(playerid, PlayerInfo[playerid][Armour]);
-		format(file, sizeof(file), USER_FILE, GetName(playerid));
-    	new INI:ufile = INI_Open(file);
-    	INI_WriteString(ufile, "pPass", PlayerInfo[playerid][pPass]);
-    	INI_WriteInt(ufile, "Cash",PlayerInfo[playerid][Cash]);
-    	INI_WriteInt(ufile, "House",PlayerInfo[playerid][House]);
-    	INI_WriteFloat(ufile, "pPosX", X[0]);
-    	INI_WriteFloat(ufile, "pPosY", X[1]);
-    	INI_WriteFloat(ufile, "pPosZ", X[2]);
-    	INI_WriteFloat(ufile, "Health", PlayerInfo[playerid][Health]);
-    	INI_WriteFloat(ufile, "Armour", PlayerInfo[playerid][Armour]);
-
-		GetPlayerWeaponData(playerid, 0, PlayerInfo[playerid][gSlot0_gun], PlayerInfo[playerid][gSlot0_ammo]);
-		GetPlayerWeaponData(playerid, 1, PlayerInfo[playerid][gSlot1_gun], PlayerInfo[playerid][gSlot1_ammo]);
-		GetPlayerWeaponData(playerid, 2, PlayerInfo[playerid][gSlot2_gun], PlayerInfo[playerid][gSlot2_ammo]);
-		GetPlayerWeaponData(playerid, 3, PlayerInfo[playerid][gSlot3_gun], PlayerInfo[playerid][gSlot3_ammo]);
-		GetPlayerWeaponData(playerid, 4, PlayerInfo[playerid][gSlot4_gun], PlayerInfo[playerid][gSlot4_ammo]);
-		GetPlayerWeaponData(playerid, 5, PlayerInfo[playerid][gSlot5_gun], PlayerInfo[playerid][gSlot5_ammo]);
-		GetPlayerWeaponData(playerid, 6, PlayerInfo[playerid][gSlot6_gun], PlayerInfo[playerid][gSlot6_ammo]);
-		GetPlayerWeaponData(playerid, 7, PlayerInfo[playerid][gSlot7_gun], PlayerInfo[playerid][gSlot7_ammo]);
-		GetPlayerWeaponData(playerid, 8, PlayerInfo[playerid][gSlot8_gun], PlayerInfo[playerid][gSlot8_ammo]);
-		GetPlayerWeaponData(playerid, 9, PlayerInfo[playerid][gSlot9_gun], PlayerInfo[playerid][gSlot9_ammo]);
-		GetPlayerWeaponData(playerid, 10, PlayerInfo[playerid][gSlot10_gun], PlayerInfo[playerid][gSlot10_ammo]);
-		GetPlayerWeaponData(playerid, 11, PlayerInfo[playerid][gSlot11_gun], PlayerInfo[playerid][gSlot11_ammo]);
-		GetPlayerWeaponData(playerid, 12, PlayerInfo[playerid][gSlot12_gun], PlayerInfo[playerid][gSlot12_ammo]);
-
-	    INI_WriteInt(ufile, "gSlot0_gun", PlayerInfo[playerid][gSlot0_gun]);
-	    INI_WriteInt(ufile, "gSlot0_ammo", PlayerInfo[playerid][gSlot0_ammo]);
-	    INI_WriteInt(ufile, "gSlot1_gun", PlayerInfo[playerid][gSlot1_gun]);
-	    INI_WriteInt(ufile, "gSlot1_ammo", PlayerInfo[playerid][gSlot1_ammo]);
-	    INI_WriteInt(ufile, "gSlot2_gun", PlayerInfo[playerid][gSlot2_gun]);
-	    INI_WriteInt(ufile, "gSlot2_ammo", PlayerInfo[playerid][gSlot2_ammo]);
-	    INI_WriteInt(ufile, "gSlot3_gun", PlayerInfo[playerid][gSlot3_gun]);
-	    INI_WriteInt(ufile, "gSlot3_ammo", PlayerInfo[playerid][gSlot3_ammo]);
-	    INI_WriteInt(ufile, "gSlot4_gun", PlayerInfo[playerid][gSlot4_gun]);
-	    INI_WriteInt(ufile, "gSlot4_ammo", PlayerInfo[playerid][gSlot4_ammo]);
-	    INI_WriteInt(ufile, "gSlot5_gun", PlayerInfo[playerid][gSlot5_gun]);
-	    INI_WriteInt(ufile, "gSlot5_ammo", PlayerInfo[playerid][gSlot5_ammo]);
-	    INI_WriteInt(ufile, "gSlot6_gun", PlayerInfo[playerid][gSlot6_gun]);
-	    INI_WriteInt(ufile, "gSlot6_ammo", PlayerInfo[playerid][gSlot6_ammo]);
-	    INI_WriteInt(ufile, "gSlot7_gun", PlayerInfo[playerid][gSlot7_gun]);
-	    INI_WriteInt(ufile, "gSlot7_ammo", PlayerInfo[playerid][gSlot7_ammo]);
-	    INI_WriteInt(ufile, "gSlot8_gun", PlayerInfo[playerid][gSlot8_gun]);
-	    INI_WriteInt(ufile, "gSlot8_ammo", PlayerInfo[playerid][gSlot8_ammo]);
-	    INI_WriteInt(ufile, "gSlot9_gun", PlayerInfo[playerid][gSlot9_gun]);
-	    INI_WriteInt(ufile, "gSlot9_ammo", PlayerInfo[playerid][gSlot9_ammo]);
-	    INI_WriteInt(ufile, "gSlot10_gun", PlayerInfo[playerid][gSlot10_gun]);
-	    INI_WriteInt(ufile, "gSlot10_ammo", PlayerInfo[playerid][gSlot10_ammo]);
-	    INI_WriteInt(ufile, "gSlot11_gun", PlayerInfo[playerid][gSlot11_gun]);
-	    INI_WriteInt(ufile, "gSlot11_ammo", PlayerInfo[playerid][gSlot11_ammo]);
-	    INI_WriteInt(ufile, "gSlot12_gun", PlayerInfo[playerid][gSlot12_gun]);
-	    INI_WriteInt(ufile, "gSlot12_ammo", PlayerInfo[playerid][gSlot12_ammo]);
-
-		INI_Close(ufile);
-	}
-	return 1;
-}
-forward LoadUser_data(playerid, name[], value[]);
-public LoadUser_data(playerid, name[], value[])
-{
-	INI_String("pPass", PlayerInfo[playerid][pPass], 129);
-	INI_Int("Cash",PlayerInfo[playerid][Cash]);
-	INI_Int("House",PlayerInfo[playerid][House]);
-	INI_Float("pPosX",PlayerInfo[playerid][pPosX]);
-	INI_Float("pPosY",PlayerInfo[playerid][pPosY]);
-	INI_Float("pPosZ",PlayerInfo[playerid][pPosZ]);
-	INI_Float("Health",PlayerInfo[playerid][Health]);
-	INI_Float("Armour",PlayerInfo[playerid][Armour]);
-
-	INI_Int("gSlot0_gun", PlayerInfo[playerid][gSlot0_gun]);
-    INI_Int("gSlot0_ammo", PlayerInfo[playerid][gSlot0_ammo]);
-    INI_Int("gSlot1_gun", PlayerInfo[playerid][gSlot1_gun]);
-    INI_Int("gSlot1_ammo", PlayerInfo[playerid][gSlot1_ammo]);
-    INI_Int("gSlot2_gun", PlayerInfo[playerid][gSlot2_gun]);
-    INI_Int("gSlot2_ammo", PlayerInfo[playerid][gSlot2_ammo]);
-    INI_Int("gSlot3_gun", PlayerInfo[playerid][gSlot3_gun]);
-    INI_Int("gSlot3_ammo", PlayerInfo[playerid][gSlot3_ammo]);
-    INI_Int("gSlot4_gun", PlayerInfo[playerid][gSlot4_gun]);
-    INI_Int("gSlot4_ammo", PlayerInfo[playerid][gSlot4_ammo]);
-    INI_Int("gSlot5_gun", PlayerInfo[playerid][gSlot5_gun]);
-    INI_Int("gSlot5_ammo", PlayerInfo[playerid][gSlot5_ammo]);
-    INI_Int("gSlot6_gun", PlayerInfo[playerid][gSlot6_gun]);
-    INI_Int("gSlot6_ammo", PlayerInfo[playerid][gSlot6_ammo]);
-    INI_Int("gSlot7_gun", PlayerInfo[playerid][gSlot7_gun]);
-    INI_Int("gSlot7_ammo", PlayerInfo[playerid][gSlot7_ammo]);
-    INI_Int("gSlot8_gun", PlayerInfo[playerid][gSlot8_gun]);
-    INI_Int("gSlot8_ammo", PlayerInfo[playerid][gSlot8_ammo]);
-    INI_Int("gSlot9_gun", PlayerInfo[playerid][gSlot9_gun]);
-    INI_Int("gSlot9_ammo", PlayerInfo[playerid][gSlot9_ammo]);
-    INI_Int("gSlot10_gun", PlayerInfo[playerid][gSlot10_gun]);
-    INI_Int("gSlot10_ammo", PlayerInfo[playerid][gSlot10_ammo]);
-    INI_Int("gSlot11_gun", PlayerInfo[playerid][gSlot11_gun]);
-    INI_Int("gSlot11_ammo", PlayerInfo[playerid][gSlot11_ammo]);
-    INI_Int("gSlot12_gun", PlayerInfo[playerid][gSlot12_gun]);
-    INI_Int("gSlot12_ammo", PlayerInfo[playerid][gSlot12_ammo]);
-
-    return 1;
-}
-
-stock SaveZoneData(ZoneID)
-{
-	new file[40];
-	format(file, sizeof(file), ZONE_FILE, ZoneID);
-	new INI:ufile = INI_Open(file);
-	INI_WriteInt(ufile, "Color",ZoneInfo[ZoneID][Color]);
-	INI_WriteFloat(ufile, "MinX", ZoneInfo[ZoneID][MinX]);
-	INI_WriteFloat(ufile, "MinY", ZoneInfo[ZoneID][MinY]);
-	INI_WriteFloat(ufile, "MaxX",ZoneInfo[ZoneID][MaxX]);
-	INI_WriteFloat(ufile, "MaxY", ZoneInfo[ZoneID][MaxY]);
-
-	INI_Close(ufile);
-	return 1;
-}
-forward LoadZone_data(ZoneID, name[], value[]);
-public LoadZone_data(ZoneID, name[], value[])
-{
-	INI_Int("Color",ZoneInfo[ZoneID][Color]);
-	INI_Float("MinX", ZoneInfo[ZoneID][MinX]);
-	INI_Float("MinY", ZoneInfo[ZoneID][MinY]);
-	INI_Float("MaxX",ZoneInfo[ZoneID][MaxX]);
-	INI_Float("MaxY", ZoneInfo[ZoneID][MaxY]);
-
-    return 1;
-}
-
-
-stock SaveHouseData(House_ID)
-{
-	new file[40];
-	format(file, sizeof(file), HOUSE_FILE, House_ID);
-	if(fexist(file))
-	{
-		new INI:ufile = INI_Open(file);
-		INI_WriteString(ufile, "Owner",H_INFO[House_ID][Owner]);
-		INI_WriteFloat(ufile, "HouseX", H_INFO[House_ID][HouseX]);
-		INI_WriteFloat(ufile, "HouseY", H_INFO[House_ID][HouseY]);
-		INI_WriteFloat(ufile, "HouseZ", H_INFO[House_ID][HouseZ]);
-		INI_WriteInt(ufile, "Value",H_INFO[House_ID][Value]);
-		INI_WriteInt(ufile, "VehModel",H_INFO[House_ID][VehModel]);
-		INI_WriteInt(ufile, "CarColor1",H_INFO[House_ID][CarColor1]);
-		INI_WriteInt(ufile, "CarColor2",H_INFO[House_ID][CarColor2]);
-		INI_WriteInt(ufile, "VehWheel",H_INFO[House_ID][VehWheel]);
-		INI_WriteBool(ufile, "VehNitro",H_INFO[House_ID][VehNitro]);
-		INI_WriteBool(ufile, "VehHydro",H_INFO[House_ID][VehHydro]);
-		INI_WriteFloat(ufile, "CarX", H_INFO[House_ID][CarX]);
-		INI_WriteFloat(ufile, "CarY", H_INFO[House_ID][CarY]);
-		INI_WriteFloat(ufile, "CarZ", H_INFO[House_ID][CarZ]);
-		INI_WriteFloat(ufile, "CarA", H_INFO[House_ID][CarA]);
-		INI_Close(ufile);
-	}
-	return 1;
-}
-forward LoadHouse_data(House_ID, name[], value[]);
-public LoadHouse_data(House_ID, name[], value[])
-{
-	INI_String("Owner",H_INFO[House_ID][Owner],64);
-	INI_Float("HouseX", H_INFO[House_ID][HouseX]);
-	INI_Float("HouseY", H_INFO[House_ID][HouseY]);
-	INI_Float("HouseZ", H_INFO[House_ID][HouseZ]);
-	INI_Int("Value",H_INFO[House_ID][Value]);
-	INI_Int("VehModel",H_INFO[House_ID][VehModel]);
-	INI_Int("CarColor1",H_INFO[House_ID][CarColor1]);
-	INI_Int("CarColor2",H_INFO[House_ID][CarColor2]);
-	INI_Int("VehWheel",H_INFO[House_ID][VehWheel]);
-	INI_Bool("VehNitro",H_INFO[House_ID][VehNitro]);
-	INI_Bool("VehHydro",H_INFO[House_ID][VehHydro]);
-	INI_Float("CarX", H_INFO[House_ID][CarX]);
-	INI_Float("CarY", H_INFO[House_ID][CarY]);
-	INI_Float("CarZ", H_INFO[House_ID][CarZ]);
-	INI_Float("CarA", H_INFO[House_ID][CarA]);
-    return 1;
-}
 
 forward ServerOneSecondVariables();
 public ServerOneSecondVariables()
@@ -1942,32 +1908,24 @@ stock IsPlayerInZone(playerid,ZoneID)
 
 	return 0;
 }
-stock GetFreeZoneID()//
+GetZoneID()
 {
-	new file[40];
-    for(new h = 0; h < MAX_ZONES; h++)
-    {
-        format(file, sizeof(file), ZONE_FILE, h);
-        if(!fexist(file))
-        {
-            return h;
-		}
+	for(new i=0;i<MAX_HOUSES;i++)
+	{
+		if(ZoneInfo[i][Color] == 0)
+			return i;
 	}
-    return -1;
+	return -1;
 }
 
-stock GetFreeHouseeID()//
+GetHouseID()
 {
-	new file[40];
-    for(new h = 1; h < MAX_HOUSES; h++)
-    {
-        format(file, sizeof(file), HOUSE_FILE, h);
-        if(!fexist(file))
-        {
-            return h;
-		}
+	for(new i=1;i<MAX_HOUSES;i++)
+	{
+		if(H_INFO[i][Value] == 0)
+			return i;
 	}
-    return -1;
+	return -1;
 }
 
 stock GivePool(playerid,amount)
@@ -2075,7 +2033,9 @@ stock Buy(playerid,price)
 }
 stock CreateZone(Float:Minx,Float:Miny,Float:Maxx,Float:Maxy)
 {
-	new ZoneID = GetFreeZoneID();
+	TotalZones++;
+	new query[512];
+	new ZoneID = GetZoneID();
 	ZoneInfo[ZoneID][Color] = ZONE_COLOR;
 	ZoneInfo[ZoneID][Owner] = 0;
 	ZoneInfo[ZoneID][MinX] = Minx;
@@ -2083,8 +2043,10 @@ stock CreateZone(Float:Minx,Float:Miny,Float:Maxx,Float:Maxy)
 	ZoneInfo[ZoneID][MaxX] = Maxx;
 	ZoneInfo[ZoneID][MaxY] = Maxy;
 	ZoneInfo[ZoneID][_Zone] = GangZoneCreate(ZoneInfo[ZoneID][MinX],ZoneInfo[ZoneID][MinY],ZoneInfo[ZoneID][MaxX],ZoneInfo[ZoneID][MaxY]);
-	SaveZoneData(ZoneID);
 	GangZoneShowForAll(ZoneInfo[ZoneID][_Zone],ZoneInfo[ZoneID][Color]);
+	mysql_format(g_SQL, query, sizeof(query), "INSERT INTO `zones`(`IDZ`,`MinX`,`MinY`, `MaxX`, `MaxY`,`Color`) VALUES (%d, %f, %f, %f, %f, %i)",ZoneID, Minx, Miny, Maxx, Maxy,ZoneInfo[ZoneID][Color]);
+	mysql_tquery(g_SQL, query);
+
 }
 
 stock GetPlayerZone(playerid)
@@ -2114,6 +2076,9 @@ stock CaptureZone(playerid,ZoneID)
 		GivePool(r,15000);
 	}
 	CountZones();
+	new query[128];
+	mysql_format(g_SQL,query, sizeof(query), "UPDATE `zones` SET Color=%d WHERE IDZ = %d",ZoneInfo[ZoneID][Color],ZoneID);
+	mysql_tquery(g_SQL,query);
 	return 1;
 }
 stock FailCaptureZone(ZoneID)
@@ -2122,26 +2087,6 @@ stock FailCaptureZone(ZoneID)
 	TextDrawHideForAll(ZoneTD);
 	U_Attack_Zone = -1;
 	U_Attack_by = -1;
-	return 1;
-}
-stock CreateHouse(HouseIDX)
-{
-	new str[128];
-	format(str,128,"{FFFFFF}Khane Shomare : %d\n{FFFF00}Geymat Khane :  $ %d\n{26ADFF}Saheb Khane : {%s} %s !",HouseIDX,H_INFO[HouseIDX][Value],SahebKhaneColor(HouseIDX),H_INFO[HouseIDX][Owner]);
-	H_INFO[HouseIDX][CP] = CreateDynamicPickup(1273, 23,H_INFO[HouseIDX][HouseX],H_INFO[HouseIDX][HouseY],H_INFO[HouseIDX][HouseZ], 0, 0, -1, 40.0);
-	H_INFO[HouseIDX][Text] = Create3DTextLabel(str, YELLOW,H_INFO[HouseIDX][HouseX],H_INFO[HouseIDX][HouseY],H_INFO[HouseIDX][HouseZ]+0.5, 40.0, 0, 1);
-	if(H_INFO[HouseIDX][VehModel] != 0)
-	{
-		H_INFO[HouseIDX][_Veh] = CreateVehicle(H_INFO[HouseIDX][VehModel],H_INFO[HouseIDX][CarX],H_INFO[HouseIDX][CarY],H_INFO[HouseIDX][CarZ],H_INFO[HouseIDX][CarA],H_INFO[HouseIDX][CarColor1],H_INFO[HouseIDX][CarColor2],10000);
-		if(H_INFO[HouseIDX][VehNitro] == true) AddVehicleComponent(H_INFO[HouseIDX][_Veh],1010);
-		if(H_INFO[HouseIDX][VehHydro] == true) AddVehicleComponent(H_INFO[HouseIDX][_Veh],1087);
-		if(H_INFO[HouseIDX][VehWheel] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);
-		/*if(H_INFO[HouseIDX][VehComp1] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);
-		if(H_INFO[HouseIDX][VehComp2] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);
-		if(H_INFO[HouseIDX][VehComp3] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);
-		if(H_INFO[HouseIDX][VehComp4] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);
-		if(H_INFO[HouseIDX][VehComp5] > 0) AddVehicleComponent(H_INFO[HouseIDX][_Veh],H_INFO[HouseIDX][VehWheel]);*/
-	}
 	return 1;
 }
 stock SahebKhaneColor(HouseIDK)
@@ -2188,6 +2133,7 @@ stock CountZones()
 	return 1;
 }
 
+
 CMD:pos(playerid,params[])
 {
 	#pragma unused params
@@ -2225,7 +2171,7 @@ CMD:savecar(playerid,params[])
     fclose(pos);
     return 1;
 }
-CMD:gg(playerid){
+stock gg(playerid){
 	for(new x=0; x<35; x++)
 	{
 		PlayerTextDrawShow(playerid, Text_Player[playerid][x]);
@@ -2233,22 +2179,6 @@ CMD:gg(playerid){
 	SelectTextDraw(playerid,-1);
 	return 1;
 }
-/*CMD:czone(playerid,params[]) {
-	new Float:Pos[3];
-	GetPlayerPos(playerid,Pos[0],Pos[1],Pos[2]);
-	if(GetPVarInt(playerid,"IsPoint2") == 1)
-	{
-		SetPVarInt(playerid,"IsPoint2",0);
-		CreateZone(GetPVarFloat(playerid,"x1"),GetPVarFloat(playerid,"x2"),Pos[0],Pos[1]);
-
-	} else {
-		SetPVarInt(playerid,"IsPoint2",1);
-		SetPVarFloat(playerid,"x1",Pos[0]);
-		SetPVarFloat(playerid,"x2",Pos[1]);
-		SendClientMessage(playerid,0x808080FF,"[CREATE - ZONE] : Point 1 Set Shod 1");
-	}
-	return 1;
-}*/
 CMD:createzone(playerid,params[])
 {
 	if(P_INFO[playerid][creatingzone]) return SendClientMessage(playerid,-1,"ERROR:You are already creating one zone complete it using left alt key!!");
@@ -2264,6 +2194,23 @@ CMD:createzone(playerid,params[])
 	
 	return 1;
 }
+stock Attacks(playerid)
+{
+	new ZoneID = GetPlayerZone(playerid);
+	if((ZoneID) == NO_ZONE) return SendClientMessage(playerid,0x909090FF,"1");
+	if(U_Attack_Zone != -1) return SendClientMessage(playerid,0x909090FF,"2");
+	if(ZoneInfo[ZoneID][locked] == true) return SendClientMessage(playerid,0x909090FF,"3");
+	if(Team[playerid] == ZoneInfo[ZoneID][Color]) return SendClientMessage(playerid,0x909090FF,"4");
+	if(Team[playerid] == TEAM_POLICE) return SendClientMessage(playerid,0x909090FF,"5");
+	/////khar
+	U_Attack_Zone = ZoneID;
+	GangZoneFlashForAll(ZoneInfo[ZoneID][_Zone], 0xFF0000AA);
+	TextDrawShowForPlayer(playerid,ZoneTD);
+	ZoneInfo[U_Attack_Zone][timercap] = 60;
+	U_Attack_by = playerid;
+	return 1;
+}
+
 CMD:attack(playerid,params[])
 {
 	new ZoneID = GetPlayerZone(playerid);
@@ -2295,22 +2242,17 @@ CMD:moneybag(playerid)
 	return 1;
 }
 
-CMD:cx(playerid,params[])
+CMD:createhouse(playerid,params[])
 {
-	new price;
-	if(sscanf(params,"d",price)) return SendClientMessage(playerid,0x909090DD,"Tarighe Estefade : /cx (Price)");
-	new file[40],HID = GetFreeHouseeID();
-	format(file, sizeof(file), HOUSE_FILE, HID);
-	new File:startfile = fopen(file, io_write);
-    fclose(startfile);
+	new price,query[512],Float:PX, Float:PY, Float:PZ,HID = GetHouseID();
+	if(sscanf(params,"i",price)) return SendClientMessage(playerid,0x909090DD,"Tarighe Estefade : /cx (Price)");
     H_INFO[HID][Value] = price;
-    GetPlayerPos(playerid,H_INFO[HID][HouseX], H_INFO[HID][HouseY], H_INFO[HID][HouseZ]);
-    format(H_INFO[HID][Owner],64,"Bedun Saheb");
-    CreateHouse(HID);
-	SaveHouseData(HID);
+    GetPlayerPos(playerid,PX,PY,PZ);
+	mysql_format(g_SQL, query, sizeof(query), "INSERT INTO `houses`(`IDH`,`HouseX`,`HouseY`, `HouseZ`, `Owner`,`Value`) VALUES (%d, %f, %f, %f, '%s', %i)",HID, PX, PY, PZ, "Bedun Saheb",price);
+	mysql_tquery(g_SQL, query, "OnCreateHouse", "iiifff",playerid, HID, price, PX, PY, PZ);
 	return 1;
 }
-CMD:cxcar(playerid,params[])
+/*CMD:cxcar(playerid,params[])
 {
 	new HID,c1,c2;
 	if(sscanf(params,"ddd",HID,c1,c2)) return SendClientMessage(playerid,0x909090DD,"Tarighe Estefade : /cxcar (House ID)");
@@ -2322,9 +2264,11 @@ CMD:cxcar(playerid,params[])
     H_INFO[HID][VehWheel] = 1080;
     H_INFO[HID][VehNitro] = true;
     H_INFO[HID][VehHydro] = true;
-	SaveHouseData(HID);
+    GetPlayerPos(playerid,PX,PY,PZ);
+	mysql_format(g_SQL, query, sizeof(query), "INSERT INTO `houses`(`IDH`,`HouseX`,`HouseY`, `HouseZ`, `Owner`,`Value`) VALUES (%d, %f, %f, %f, '%s', %i)",HID, PX, PY, PZ, "Bedun Saheb",price);
+	mysql_tquery(g_SQL, query, "OnCreateHouse", "iiifff",playerid, HID, price, PX, PY, PZ);    
 	return 1;
-}
+}*/
 CMD:bs(playerid,params[])
 {
 	new target;

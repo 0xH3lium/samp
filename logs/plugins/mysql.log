@@ -1,0 +1,336 @@
+[10/04/22 18:49:05] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #2002 'Can't connect to MySQL server on '127.0.0.1' (10061)'
+[10/04/22 18:50:34] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'username'@'localhost' (using password: YES)'
+[10/04/22 18:50:34] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'username'@'localhost' (using password: YES)'
+[10/04/22 18:50:34] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'username'@'localhost' (using password: YES)'
+[10/04/22 18:50:34] [ERROR] CConnection::CConnection - establishing connection to MySQL database failed: #1045 'Access denied for user 'username'@'localhost' (using password: YES)'
+[10/04/22 18:51:45] [WARNING] mysql_connect: no password specified
+[10/04/22 18:51:54] [ERROR] error #1146 while executing query "SELECT `id`,`Cash`,`House`,`pPass`,`gSlot0_gun`,`gSlot0_ammo`,`gSlot1_gun`,`gSlot1_ammo`,`gSlot2_gun`,`gSlot2_ammo`,`gSlot3_gun`,`gSlot3_ammo`,`gSlot4_gun`,`gSlot4_ammo`,`gSlot5_gun`,`gSlot5_ammo`,`gSlot6_gun`,`gSlot6_ammo`,`gSlot7_gun`,`gSlot7_ammo`,`pPosX`,`pPosY`,`pPosZ` FROM `players` WHERE `username`='testacc' LIMIT 1": Table 'samp.players' doesn't exist
+[10/04/22 18:52:19] [ERROR] error #1146 while executing query "UPDATE `players` SET `id`='21020',`Cash`='21020',`House`='21020',`pPass`='',`gSlot0_gun`='0',`gSlot0_ammo`='0',`gSlot1_gun`='0',`gSlot1_ammo`='0',`gSlot2_gun`='0',`gSlot2_ammo`='0',`gSlot3_gun`='0',`gSlot3_ammo`='0',`gSlot4_gun`='0',`gSlot4_ammo`='0',`gSlot5_gun`='0',`gSlot5_ammo`='0',`gSlot6_gun`='0',`gSlot6_ammo`='0',`gSlot7_gun`='0',`gSlot7_ammo`='0',`pPosX`='0.0',`pPosY`='0.0',`pPosZ`='0.0' WHERE `username`='a' LIMIT 1": Table 'samp.players' doesn't exist
+[10/04/22 19:07:27] [WARNING] mysql_connect: no password specified
+[10/04/22 19:18:34] [WARNING] mysql_connect: no password specified
+[10/04/22 19:18:57] [ERROR] COrm::UpdateKeyValue - inserted id is zero
+[10/04/22 19:22:37] [ERROR] COrm::UpdateKeyValue - inserted id is zero
+[10/04/22 19:36:03] [WARNING] mysql_connect: no password specified
+[10/04/22 21:11:32] [WARNING] mysql_connect: no password specified
+[10/04/22 21:11:32] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:29:04] [WARNING] mysql_connect: no password specified
+[10/04/22 21:29:04] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:29:31] [WARNING] mysql_connect: no password specified
+[10/04/22 21:29:31] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:30:28] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:36:22] [WARNING] mysql_connect: no password specified
+[10/04/22 21:36:22] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:36:59] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:40:42] [WARNING] mysql_connect: no password specified
+[10/04/22 21:40:42] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:41:34] [WARNING] mysql_connect: no password specified
+[10/04/22 21:41:34] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:42:11] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:42:13] [ERROR] orm_save: invalid orm id '0'
+[10/04/22 21:49:11] [WARNING] mysql_connect: no password specified
+[10/04/22 21:49:11] [ERROR] mysql_tquery: callback error: callback "LoadHouses" does not exist
+[10/04/22 21:51:53] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:55:44] [WARNING] mysql_connect: no password specified
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:55:44] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [WARNING] mysql_connect: no password specified
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:18] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:56:52] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:57:41] [ERROR] error #1054 while executing query "INSERT INTO `houses` (`Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA`) VALUES ('0','0','0','0','0','0','0','testacc','0.0','0.0','0.0','0.0','0.0','0.0','0.0')": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:58:49] [WARNING] mysql_connect: no password specified
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:58:49] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 21:59:19] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 21:59:21] [ERROR] error #1054 while executing query "INSERT INTO `houses` (`Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA`) VALUES ('0','0','0','0','0','0','0','testacc','0.0','0.0','0.0','0.0','0.0','0.0','0.0')": Unknown column 'Owneer' in 'field list'
+[10/04/22 22:07:16] [WARNING] mysql_connect: no password specified
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:07:16] [ERROR] orm_select: callback error: callback "CreateHouse" does not exist
+[10/04/22 22:08:10] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/04/22 22:08:16] [ERROR] error #1054 while executing query "SELECT `Value`,`VehModel`,`CarColor1`,`CarColor2`,`VehWheel`,`VehHydro`,`VehNitro`,`Owneer`,`HouseX`,`HouseY`,`HouseZ`,`CarX`,`CarY`,`CarZ`,`CarA` FROM `houses` WHERE `IDH`='0' LIMIT 1": Unknown column 'Owneer' in 'field list'
+[10/05/22 11:30:22] [WARNING] mysql_connect: no password specified
+[10/05/22 11:33:11] [WARNING] mysql_connect: no password specified
+[10/05/22 11:38:34] [WARNING] mysql_connect: no password specified
+[10/05/22 11:39:18] [ERROR] error #1062 while executing query "INSERT INTO `houses`(`IDH`,`HouseX`,`HouseY`, `HouseZ`, `Owner`,`Value`) VALUES (1, 2020.905762, -1467.193726, 13.818388, 'Bedun Saheb', 10000)": Duplicate entry '1' for key 'PRIMARY'
+[10/05/22 11:41:34] [WARNING] mysql_connect: no password specified
+[10/05/22 11:44:08] [WARNING] mysql_connect: no password specified
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_float: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:08] [ERROR] cache_get_value_name_int: invalid row index '1' (number of rows: '1')
+[10/05/22 11:44:28] [ERROR] error #1062 while executing query "INSERT INTO `houses`(`IDH`,`HouseX`,`HouseY`, `HouseZ`, `Owner`,`Value`) VALUES (1, 2017.470947, -1467.333984, 13.433046, 'Bedun Saheb', 15000)": Duplicate entry '1' for key 'PRIMARY'
+[10/05/22 11:52:26] [WARNING] mysql_connect: no password specified
+[10/05/22 12:37:30] [WARNING] mysql_connect: no password specified
+[10/05/22 12:46:08] [WARNING] mysql_connect: no password specified
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:46:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [WARNING] mysql_connect: no password specified
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 12:59:03] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [WARNING] mysql_connect: no password specified
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 14:23:25] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [WARNING] mysql_connect: no password specified
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 15:53:45] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:06] [WARNING] mysql_connect: no password specified
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:26:07] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [WARNING] mysql_connect: no password specified
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 17:36:58] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [WARNING] mysql_connect: no password specified
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:27:38] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [WARNING] mysql_connect: no password specified
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:35:22] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [WARNING] mysql_connect: no password specified
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 19:37:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [WARNING] mysql_connect: no password specified
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:08] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [WARNING] mysql_connect: no password specified
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:53:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:09] [WARNING] mysql_connect: no password specified
+[10/05/22 20:55:09] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 20:55:10] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [WARNING] mysql_connect: no password specified
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:06:35] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [WARNING] mysql_connect: no password specified
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:08:29] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [WARNING] mysql_connect: no password specified
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:09:40] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [WARNING] mysql_connect: no password specified
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:10:12] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [WARNING] mysql_connect: no password specified
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_int: field 'IDH' not found
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_int: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
+[10/05/22 21:12:15] [ERROR] cache_get_value_name_float: invalid row index '2' (number of rows: '2')
