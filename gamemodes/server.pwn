@@ -12,7 +12,8 @@
 #include <sscanf2>
 #include <streamer>
 #include "map\map"
-#include "InterM\N"
+#include "Dialog\Dialog"
+#include "Enters\mmm"
 
 
 
@@ -61,7 +62,7 @@ new TotalZones;
 #define VAGOS_PLAYER_COLOR 0xF5EA00FF
 #define POLICE_PLAYER_COLOR 0x00F5E2FF
 
-#define MAX_ZONES 30
+#define MAX_ZONES 50
 #define MAX_HOUSES 30
 #define TEAM_GROVE_STREET 0x00FF6CBB
 #define TEAM_BALLAS 0xFF0061BB
@@ -363,7 +364,7 @@ public LoadZones()
     	ZoneInfo[i][_Zone] = GangZoneCreate(ZoneInfo[i][MinX],ZoneInfo[i][MinY],ZoneInfo[i][MaxX],ZoneInfo[i][MaxY]);
     	ZoneInfo[i][locked] = false;
 	}
-	printf("\n[Zones]: %d Houses were loaded.\n",rows);
+	printf("\n[Zones]: %d Zones were loaded.\n",rows);
 	CountZones();
 	return 1;
 }
@@ -471,6 +472,11 @@ public OnPlayerConnect(playerid)
     P_INFO[playerid][InZone] = NO_ZONE;
     Bustu[playerid] = false;
 
+
+    SetPlayerMapIcon(playerid, 0, 2511.17,-1681.89,13.50, 62, 0, MAPICON_GLOBAL);
+    SetPlayerMapIcon(playerid, 1 ,2169.882080,-1674.035644,15.085937, 59,0,MAPICON_GLOBAL);
+    SetPlayerMapIcon(playerid,2,2351.959716,-1168.035766,27.834585,60, 0 ,MAPICON_GLOBAL); //vagos
+
 	return 1;
 }
 
@@ -565,11 +571,10 @@ public OnPlayerSpawn(playerid)
     	GangZoneShowForPlayer(playerid, ZoneInfo[i][_Zone], ZoneInfo[i][Color]);
     }
     SetPlayerColor(playerid, Team[playerid]);
+	SetPlayerInterior(playerid,0);
+	SetPlayerVirtualWorld(playerid,0);
 
 
-    SetPlayerMapIcon(playerid, 0, 2511.17,-1681.89,13.50, 62, 0, MAPICON_GLOBAL);
-    SetPlayerMapIcon(playerid, 1 ,2169.882080,-1674.035644,15.085937, 59,0,MAPICON_GLOBAL);
-    SetPlayerMapIcon(playerid,2,2351.959716,-1168.035766,27.834585,60, 0 ,MAPICON_GLOBAL); //vagos
 	return 1;
 }
 
@@ -735,6 +740,8 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
 
     SetPlayerPos(playerid,fX,fY,fZ);
+    SetPlayerInterior(playerid,0);
+    SetPlayerVirtualWorld(playerid,0);
     return 1;
 }
 
@@ -991,6 +998,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			if (!response) return Kick(playerid);
 
 			if (strlen(inputtext) <= 5) return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "Registration", "{FFFF00}Ramz Shoma Bayad Bishtar Az 5 Harf Bashad!\n{FFFFFF}Lotfan Ramz Khod Ra Vared Konid:", "Register", "Abort");
+			format(PlayerInfo[playerid][pPass],64,"%s",inputtext);
 			orm_save(PlayerInfo[playerid][ORM_ID], "OnPlayerRegister", "d", playerid);
 		}
     	case USERLIST_MENU:
@@ -1893,10 +1901,9 @@ AddThousandsSeparators(number, const separator[] = ",")
 
 stock IsPlayerInArea(playerid, Float:PminX, Float:PminY, Float:PmaxX, Float:PmaxY)
 {
-	new Float:X, Float:Y, Float:Z;
-	GetPlayerPos(playerid, X, Y, Z);
-
-	if(X >= PminX && X <= PmaxX && Y >= PminY && Y <= PmaxY)  return 1;
+	new Float:Xa, Float:Ya, Float:Za;
+	GetPlayerPos(playerid, Xa, Ya, Za);
+	if(Xa >= PminX && Xa <= PmaxX && Ya >= PminY && Ya <= PmaxY)  return 1;
 	
 	return 0;
 }
@@ -1910,7 +1917,7 @@ stock IsPlayerInZone(playerid,ZoneID)
 }
 GetZoneID()
 {
-	for(new i=0;i<MAX_HOUSES;i++)
+	for(new i=0;i<MAX_ZONES;i++)
 	{
 		if(ZoneInfo[i][Color] == 0)
 			return i;
@@ -2118,7 +2125,7 @@ stock CountZones()
 		{
 			BallasCount ++;
 		}
-		else if(ZoneInfo[e][Color] == TEAM_BALLAS)
+		else if(ZoneInfo[e][Color] == TEAM_VAGOS)
 		{
 			VagosCount ++;
 		}
@@ -2292,5 +2299,29 @@ CMD:logpos(playerid,params[])
     format(string, 256, "%f,%f,%f   //%s\n\r", P[0], P[1], P[2] , strx);
     fwrite(pos, string);
     fclose(pos);
+    return 1;
+}
+CMD:setint(playerid,params[])
+{
+	new inid;
+	if(sscanf(params,"i",inid)) return SendClientMessage(playerid,0x909090FF,"Tarighe Estefade : /setint ( ID )");
+	SetPlayerInterior(playerid,inid);
+	return 1;
+}
+CMD:bank(playerid,params[])
+{
+	#pragma unused params
+    SetPlayerInterior(playerid,21);
+    SetPlayerPos(playerid,-1383.9181,433.1974,1034.8098);
+    SetPlayerFacingAngle(playerid,180.0);
+    SetCameraBehindPlayer(playerid);
+    return 1;
+}
+CMD:shahr(playerid)
+{
+    SetPlayerInterior(playerid,3);
+    SetPlayerPos(playerid,1470.8846,-1726.5487,1052.0490);
+    SetPlayerFacingAngle(playerid,90.0);
+    SetCameraBehindPlayer(playerid);
     return 1;
 }
