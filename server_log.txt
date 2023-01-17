@@ -15074,3 +15074,277 @@ v0.3.7-R2, (C)2005-2015 SA-MP Team
 [21:17:59] [connection] incoming connection: 127.0.0.1:58395 id: 0
 [21:17:59] [join] testacc has joined the server (0:127.0.0.1)
 [21:26:41] [part] testacc has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:04:12] 
+[19:04:12] Server Plugins
+[19:04:12] --------------
+[19:04:12]  Loading plugin: sscanf
+[19:04:12] 
+[19:04:12]  ===============================
+[19:04:12] 
+[19:04:12]       sscanf plugin loaded.     
+[19:04:12] 
+[19:04:12]          Version: 2.13.2
+[19:04:12] 
+[19:04:12]    (c) 2022 Alex "Y_Less" Cole  
+[19:04:12] 
+[19:04:12]  ===============================
+[19:04:12] 
+[19:04:12]   Loaded.
+[19:04:12]  Loading plugin: streamer
+[19:04:12] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[19:04:12]   Loaded.
+[19:04:12]  Loading plugin: mysql
+[19:04:12]  >> plugin.mysql: R41-4 successfully loaded.
+[19:04:12]   Loaded.
+[19:04:12]  Loaded 3 plugins.
+
+[19:04:12] 
+[19:04:12] Filterscripts
+[19:04:12] ---------------
+[19:04:12]   Loaded 0 filterscripts.
+
+[19:04:12] Script[gamemodes/server.amx]: Run time error 17: "Invalid/unsupported P-code file format"
+[19:04:12] Failed to load 'gamemodes/server.amx' script.
+[19:04:12] Number of vehicle models: 0
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:05:44] 
+[19:05:44] Server Plugins
+[19:05:44] --------------
+[19:05:44]  Loading plugin: sscanf
+[19:05:44] 
+[19:05:44]  ===============================
+[19:05:44] 
+[19:05:44]       sscanf plugin loaded.     
+[19:05:44] 
+[19:05:44]          Version: 2.13.2
+[19:05:44] 
+[19:05:44]    (c) 2022 Alex "Y_Less" Cole  
+[19:05:44] 
+[19:05:44]  ===============================
+[19:05:44] 
+[19:05:44]   Loaded.
+[19:05:44]  Loading plugin: streamer
+[19:05:44] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[19:05:44]   Loaded.
+[19:05:44]  Loading plugin: mysql
+[19:05:44]  >> plugin.mysql: R41-4 successfully loaded.
+[19:05:44]   Loaded.
+[19:05:44]  Loaded 3 plugins.
+
+[19:05:44] 
+[19:05:44] Filterscripts
+[19:05:44] ---------------
+[19:05:44]   Loaded 0 filterscripts.
+
+[19:05:44]  
+[19:05:44]  
+[19:05:44]          ==============================================================
+[19:05:44]          |                                                            |
+[19:05:44]          |                                                            |
+[19:05:44]          |    YYYYYYY       YYYYYYY    SSSSSSSSSSSSSSS  IIIIIIIIII    |
+[19:05:44]          |    Y:::::Y       Y:::::Y  SS:::::::::::::::S I::::::::I    |
+[19:05:44]          |    Y:::::Y       Y:::::Y S:::::SSSSSS::::::S I::::::::I    |
+[19:05:44]          |    Y::::::Y     Y::::::Y S:::::S     SSSSSSS II::::::II    |
+[19:05:44]          |    YYY:::::Y   Y:::::YYY S:::::S               I::::I      |
+[19:05:44]          |       Y:::::Y Y:::::Y    S:::::S               I::::I      |
+[19:05:44]          |        Y:::::Y:::::Y      S::::SSSS            I::::I      |
+[19:05:44]          |         Y:::::::::Y        SS::::::SSSSS       I::::I      |
+[19:05:44]          |          Y:::::::Y           SSS::::::::SS     I::::I      |
+[19:05:44]          |           Y:::::Y               SSSSSS::::S    I::::I      |
+[19:05:44]          |           Y:::::Y                    S:::::S   I::::I      |
+[19:05:44]          |           Y:::::Y                    S:::::S   I::::I      |
+[19:05:44]          |           Y:::::Y        SSSSSSS     S:::::S II::::::II    |
+[19:05:44]          |        YYYY:::::YYYY     S::::::SSSSSS:::::S I::::::::I    |
+[19:05:44]          |        Y:::::::::::Y     S:::::::::::::::SS  I::::::::I    |
+[19:05:44]          |        YYYYYYYYYYYYY      SSSSSSSSSSSSSSS    IIIIIIIIII    |
+[19:05:44]          |                                                            |
+[19:05:44]          |                                                            |
+[19:05:44]          |                      (c) 2021 MPL v1.1                     |
+[19:05:44]          |            Alex "Y_Less" Cole and contributors.            |
+[19:05:44]          |                                                            |
+[19:05:44]          |                                                            |
+[19:05:44]          ==============================================================
+[19:05:44]  
+[19:05:44]  
+[19:05:44]  ========================================== 
+[19:05:44]  |                                        | 
+[19:05:44]  |   Generating code, this may take a     | 
+[19:05:44]  |  little bit of time.  Note that this   | 
+[19:05:44]  |  code generation works best with the   | 
+[19:05:44]  |     JIT plugin, which you are not      | 
+[19:05:44]  |     currently using.  Get it here:     | 
+[19:05:44]  |                                        | 
+[19:05:44]  |       https://git.io/jit-plugin        | 
+[19:05:44]  |                                        | 
+[19:05:44]  |             Please wait...             | 
+[19:05:44]  |                                        | 
+[19:05:44]  |                 Done!                  | 
+[19:05:44]  |                                        | 
+[19:05:44]  ========================================== 
+[19:05:44]  |                                        | 
+[19:05:44]  | Server:      0.3.7 - Windows           | 
+[19:05:44]  | Compiler:    3.2.3664 - Windows        | 
+[19:05:44]  | Codepage:    <none>                    | 
+[19:05:44]  | YSI:         5.06.1932                 | 
+[19:05:44]  | Started:     1671809744                | 
+[19:05:44]  | JIT:         <none>                    | 
+[19:05:44]  | Crashdetect: <none>                    | 
+[19:05:44]  |                                        | 
+[19:05:44]  ========================================== 
+[19:05:44]  |                                        | 
+[19:05:44]  | Unable to check the latest YSI version | 
+[19:05:44]  | - please watch the forums and github:  | 
+[19:05:44]  |                                        | 
+[19:05:44]  |          https://git.io/5.x            | 
+[19:05:44]  |                                        | 
+[19:05:44]  ========================================== 
+[19:05:44]  
+[19:05:44]   Filterscript '../scriptfiles/callbackfix.amx' loaded.
+[19:05:44]  
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[19:06:08] 
+[19:06:08] Server Plugins
+[19:06:08] --------------
+[19:06:08]  Loading plugin: sscanf
+[19:06:08] 
+[19:06:08]  ===============================
+[19:06:08] 
+[19:06:08]       sscanf plugin loaded.     
+[19:06:08] 
+[19:06:08]          Version: 2.13.2
+[19:06:08] 
+[19:06:08]    (c) 2022 Alex "Y_Less" Cole  
+[19:06:08] 
+[19:06:08]  ===============================
+[19:06:08] 
+[19:06:08]   Loaded.
+[19:06:08]  Loading plugin: streamer
+[19:06:08] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[19:06:08]   Loaded.
+[19:06:08]  Loading plugin: mysql
+[19:06:08]  >> plugin.mysql: R41-4 successfully loaded.
+[19:06:08]   Loaded.
+[19:06:08]  Loaded 3 plugins.
+
+[19:06:08] 
+[19:06:08] Filterscripts
+[19:06:08] ---------------
+[19:06:08]   Loaded 0 filterscripts.
+
+[19:06:08]  
+[19:06:08]  
+[19:06:08]          ==============================================================
+[19:06:08]          |                                                            |
+[19:06:08]          |                                                            |
+[19:06:08]          |    YYYYYYY       YYYYYYY    SSSSSSSSSSSSSSS  IIIIIIIIII    |
+[19:06:08]          |    Y:::::Y       Y:::::Y  SS:::::::::::::::S I::::::::I    |
+[19:06:08]          |    Y:::::Y       Y:::::Y S:::::SSSSSS::::::S I::::::::I    |
+[19:06:08]          |    Y::::::Y     Y::::::Y S:::::S     SSSSSSS II::::::II    |
+[19:06:08]          |    YYY:::::Y   Y:::::YYY S:::::S               I::::I      |
+[19:06:08]          |       Y:::::Y Y:::::Y    S:::::S               I::::I      |
+[19:06:08]          |        Y:::::Y:::::Y      S::::SSSS            I::::I      |
+[19:06:08]          |         Y:::::::::Y        SS::::::SSSSS       I::::I      |
+[19:06:08]          |          Y:::::::Y           SSS::::::::SS     I::::I      |
+[19:06:08]          |           Y:::::Y               SSSSSS::::S    I::::I      |
+[19:06:08]          |           Y:::::Y                    S:::::S   I::::I      |
+[19:06:08]          |           Y:::::Y                    S:::::S   I::::I      |
+[19:06:08]          |           Y:::::Y        SSSSSSS     S:::::S II::::::II    |
+[19:06:08]          |        YYYY:::::YYYY     S::::::SSSSSS:::::S I::::::::I    |
+[19:06:08]          |        Y:::::::::::Y     S:::::::::::::::SS  I::::::::I    |
+[19:06:08]          |        YYYYYYYYYYYYY      SSSSSSSSSSSSSSS    IIIIIIIIII    |
+[19:06:08]          |                                                            |
+[19:06:08]          |                                                            |
+[19:06:08]          |                      (c) 2021 MPL v1.1                     |
+[19:06:08]          |            Alex "Y_Less" Cole and contributors.            |
+[19:06:08]          |                                                            |
+[19:06:08]          |                                                            |
+[19:06:08]          ==============================================================
+[19:06:08]  
+[19:06:08]  
+[19:06:08]  ========================================== 
+[19:06:08]  |                                        | 
+[19:06:08]  |   Generating code, this may take a     | 
+[19:06:08]  |  little bit of time.  Note that this   | 
+[19:06:08]  |  code generation works best with the   | 
+[19:06:08]  |     JIT plugin, which you are not      | 
+[19:06:08]  |     currently using.  Get it here:     | 
+[19:06:08]  |                                        | 
+[19:06:08]  |       https://git.io/jit-plugin        | 
+[19:06:08]  |                                        | 
+[19:06:08]  |             Please wait...             | 
+[19:06:08]  |                                        | 
+[19:06:08]  |                 Done!                  | 
+[19:06:08]  |                                        | 
+[19:06:08]  ========================================== 
+[19:06:08]  |                                        | 
+[19:06:08]  | Server:      0.3.7 - Windows           | 
+[19:06:08]  | Compiler:    3.2.3664 - Windows        | 
+[19:06:08]  | Codepage:    <none>                    | 
+[19:06:08]  | YSI:         5.06.1932                 | 
+[19:06:08]  | Started:     1671809768                | 
+[19:06:08]  | JIT:         <none>                    | 
+[19:06:08]  | Crashdetect: <none>                    | 
+[19:06:08]  |                                        | 
+[19:06:08]  ========================================== 
+[19:06:08]  |                                        | 
+[19:06:08]  | Unable to check the latest YSI version | 
+[19:06:08]  | - please watch the forums and github:  | 
+[19:06:08]  |                                        | 
+[19:06:08]  |          https://git.io/5.x            | 
+[19:06:08]  |                                        | 
+[19:06:08]  ========================================== 
+[19:06:08]  
+[19:06:08]   Filterscript '../scriptfiles/callbackfix.amx' loaded.
+[19:06:08]  
+[19:06:09] MySQL connection is successful.
+[19:06:09] 
+----------------------------------
+[19:06:09]  126
+[19:06:09] ----------------------------------
+
+[19:06:09] Number of vehicle models: 0
+[19:06:09] 
+[Zones]: 30 Zones were loaded.
+
+[19:06:09] 
+[Houses]: 2 Houses were loaded.
+
+[19:06:41] [connection] incoming connection: 127.0.0.1:58320 id: 0
+[19:06:41] [join] H3liumx has joined the server (0:127.0.0.1)
+[19:25:19] [chat] [H3liumx]: t
+[19:30:40] [death] H3liumx died 255
+[19:38:58] [part] H3liumx has left the server (0:1)
